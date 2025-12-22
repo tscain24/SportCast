@@ -16,16 +16,20 @@
 
     <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
       <label>
-        Email
-        <input type="email" formControlName="email" placeholder="you@example.com" />
+        <span class="label-text">Email<span class="required">*</span></span>
+        <mat-form-field class="mat-shell" appearance="fill">
+          <input matInput type="email" formControlName="email" placeholder="you@example.com" />
+        </mat-form-field>
         <span class="error" *ngIf="form.controls.email.touched && form.controls.email.invalid">
           Enter a valid Email.
         </span>
       </label>
 
       <label>
-        Password
-        <input type="password" formControlName="password" placeholder="********" />
+        <span class="label-text">Password<span class="required">*</span></span>
+        <mat-form-field class="mat-shell" appearance="fill">
+          <input matInput type="password" formControlName="password" placeholder="********" />
+        </mat-form-field>
         <span class="error" *ngIf="form.controls.password.touched && form.controls.password.invalid">
           Minimum 6 Characters.
         </span>

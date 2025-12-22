@@ -20,3 +20,112 @@ body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-shell {
+  width: 100%;
+  --mdc-filled-text-field-input-text-color: #f6f8fb;
+  --mdc-filled-text-field-input-text-placeholder-color: #7c869b;
+  --mat-mdc-form-field-input-text-placeholder-color: #7c869b;
+}
+
+.mat-shell .mdc-text-field {
+  height: var(--field-height, 52px);
+  padding: 0;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(135deg, rgba(34, 35, 45, 0.95), rgba(22, 21, 29, 0.9));
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.02);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.12s ease, background 0.2s ease;
+}
+
+.mat-shell .mdc-text-field:hover {
+  border-color: rgba(255, 90, 106, 0.45);
+  background: linear-gradient(135deg, rgba(40, 42, 52, 0.98), rgba(26, 24, 32, 0.95));
+  transform: translateY(-1px);
+}
+
+.mat-shell.mat-focused .mdc-text-field {
+  border-color: #ff5a6a;
+  box-shadow: 0 0 0 2px rgba(255, 90, 106, 0.22), 0 14px 30px rgba(0, 0, 0, 0.5);
+}
+
+.mat-shell .mdc-line-ripple,
+.mat-shell .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+.mat-shell .mat-mdc-form-field-focus-overlay {
+  background: transparent;
+}
+
+.mat-shell .mat-mdc-form-field-flex {
+  align-items: center;
+  height: var(--field-height, 52px);
+}
+
+.mat-shell .mat-mdc-form-field-infix {
+  padding: 0;
+  min-height: var(--field-height, 52px);
+  display: flex;
+  align-items: center;
+}
+
+.mat-shell .mdc-text-field__input {
+  color: #f6f8fb;
+  font-size: 14px;
+  height: var(--field-height, 52px);
+  line-height: var(--field-height, 52px);
+  padding: 0 12px;
+  -webkit-text-fill-color: #f6f8fb;
+  background: transparent;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+.mat-shell .mdc-text-field__input:placeholder-shown {
+  color: #7c869b;
+  -webkit-text-fill-color: #7c869b;
+}
+
+.mat-shell .mdc-floating-label {
+  display: none;
+}
+
+.mat-shell .mat-mdc-icon-button {
+  color: #ffb3bd;
+}
+
+.mat-shell .mat-mdc-form-field-icon-suffix {
+  margin-right: 6px;
+}
+
+.mat-shell .mdc-text-field__input::placeholder {
+  color: #7c869b;
+  opacity: 1;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+.required {
+  color: #ff5a6a;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1;
+  vertical-align: super;
+  margin-left: 0;
+}
+
+.mat-shell .mat-mdc-input-element::placeholder {
+  color: #7c869b !important;
+  opacity: 1 !important;
+}
+
+.mat-shell .mat-mdc-input-element::-webkit-input-placeholder {
+  color: #7c869b !important;
+  opacity: 1 !important;
+}
+
+.mat-shell input::placeholder {
+  color: #7c869b !important;
+  opacity: 1 !important;
+}
