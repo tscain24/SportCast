@@ -1,4 +1,4 @@
-<div class="shell">
+﻿<div class="shell">
   <div class="ambient" aria-hidden="true">
     <div class="orb-field">
       <span class="orb orb-1"></span>
@@ -49,6 +49,9 @@
               formControlName="dateOfBirth"
               [max]="maxDate"
               placeholder="mm/dd/yyyy"
+              inputmode="numeric"
+              maxlength="10"
+              (blur)="formatDobOnBlur($event)"
               [attr.aria-label]="'Date of Birth'"
             />
             <mat-datepicker-toggle matSuffix [for]="picker">
@@ -80,7 +83,7 @@
             <input matInput type="password" formControlName="password" placeholder="********" />
           </mat-form-field>
           <span class="error" *ngIf="form.controls.password.touched && form.controls.password.invalid">
-            Minimum 6 Characters.
+            Use 8+ chars with upper, lower, and a number.
           </span>
         </label>
 

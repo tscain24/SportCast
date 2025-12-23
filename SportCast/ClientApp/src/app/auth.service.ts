@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -14,19 +14,17 @@ export interface LoginResponse {
 }
 
 export interface RegisterRequest {
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   dateOfBirth: string;
   email: string;
   password: string;
 }
 
 export interface RegisterResponse {
-  firstname: string;
-  lastname: string;
-  dateOfBirth: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  password: string;
 }
 
 @Injectable({

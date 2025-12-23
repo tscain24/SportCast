@@ -1,7 +1,69 @@
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using SportCast.Server.Application.Handlers.Auth;
+using SportCast.Server.Application.Interfaces;
+using SportCast.Server.Domain.Entities;
+using SportCast.Server.Infrastructure.Configuration;
+using SportCast.Server.Infrastructure.Data;
+using SportCast.Server.Infrastructure.Services;
+using System.Text;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services
+    .AddIdentityCore<ApplicationUser>(options =>
+    {
+        options.Password.RequiredLength = 8;
+        options.Password.RequireDigit = true;
+        options.Password.RequireUppercase = true;
+        options.Password.RequireLowercase = true;
+        options.Password.RequireNonAlphanumeric = false;
+        options.User.RequireUniqueEmail = true;
+        options.Lockout.MaxFailedAccessAttempts = 5;
+    })
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddSignInManager()
+    .AddDefaultTokenProviders();
+
+var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();
+if (jwtOptions is null ||
+    string.IsNullOrWhiteSpace(jwtOptions.Key) ||
+    string.IsNullOrWhiteSpace(jwtOptions.Issuer) ||
+    string.IsNullOrWhiteSpace(jwtOptions.Audience))
+{
+    throw new InvalidOperationException("Jwt configuration is missing or invalid.");
+}
+
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtOptions.Issuer,
+            ValidAudience = jwtOptions.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key)),
+            ClockSkew = TimeSpan.FromMinutes(2),
+        };
+    });
+
+builder.Services.AddAuthorization();
+
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IRegisterUserHandler, RegisterUserHandler>();
+builder.Services.AddScoped<ILoginUserHandler, LoginUserHandler>();
+
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
@@ -16,7 +78,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -25,52 +86,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("ClientApp");
+app.UseAuthentication();
+app.UseAuthorization();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapPost("/api/auth/login", (LoginRequest request) =>
-{
-    // Stubbed auth: in a real app validate credentials, issue JWT, etc.
-    if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
-    {
-        return Results.BadRequest(new { message = "Email and password are required." });
-    }
-
-    // Dummy check; replace with real user verification.
-    if (request.Email.Equals("demo@sportcast.local", StringComparison.OrdinalIgnoreCase) &&
-        request.Password == "Password123!")
-    {
-        var token = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-        return Results.Ok(new AuthResponse("demo-user", "Demo User", token));
-    }
-
-    return Results.Unauthorized();
-}).WithName("Login").WithOpenApi();
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+app.MapControllers();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
-
-record LoginRequest(string Email, string Password);
-record AuthResponse(string UserId, string DisplayName, string Token);

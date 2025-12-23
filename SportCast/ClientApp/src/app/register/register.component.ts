@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { AuthService, RegisterRequest } from '../auth.service';
 
@@ -18,10 +18,41 @@ export class RegisterComponent {
     lastname: ['', [Validators.required, Validators.minLength(2)]],
     dateOfBirth: [null as Date | null, [Validators.required, minimumAgeValidator(13)]],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/),
+      ],
+    ],
   });
 
   constructor(private fb: FormBuilder, private auth: AuthService) {}
+
+  formatDobOnBlur(event: FocusEvent): void {
+    const input = event.target as HTMLInputElement;
+    const digits = input.value.replace(/\D/g, '');
+    if (digits.length !== 8) {
+      return;
+    }
+
+    const month = Number(digits.slice(0, 2));
+    const day = Number(digits.slice(2, 4));
+    const year = Number(digits.slice(4, 8));
+    const candidate = new Date(year, month - 1, day);
+    const isValid =
+      candidate.getFullYear() === year &&
+      candidate.getMonth() === month - 1 &&
+      candidate.getDate() === day;
+
+    if (!isValid) {
+      return;
+    }
+
+    input.value = `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`;
+    this.form.controls.dateOfBirth.setValue(candidate);
+  }
 
   submit(): void {
     this.error = '';
@@ -35,8 +66,8 @@ export class RegisterComponent {
     const rawValue = this.form.getRawValue();
     const dateValue = rawValue.dateOfBirth;
     const payload: RegisterRequest = {
-      firstname: rawValue.firstname ?? '',
-      lastname: rawValue.lastname ?? '',
+      firstName: rawValue.firstname ?? '',
+      lastName: rawValue.lastname ?? '',
       email: rawValue.email ?? '',
       password: rawValue.password ?? '',
       dateOfBirth: dateValue instanceof Date ? dateValue.toISOString().split('T')[0] : '',
@@ -44,11 +75,18 @@ export class RegisterComponent {
     this.auth.register(payload).subscribe({
       next: (res) => {
         this.loading = false;
-        this.success = `Welcome, ${res.firstname}! Account created.`;
+        this.success = `Welcome, ${res.firstName}! Account created.`;
       },
       error: (err) => {
         this.loading = false;
-        this.error = err.status === 409 ? 'Email already in use' : 'Registration failed. Please try again.';
+        const errors = err?.error?.errors as string[] | undefined;
+        if (err.status === 409) {
+          this.error = 'Email already in use';
+        } else if (errors && errors.length > 0) {
+          this.error = errors[0];
+        } else {
+          this.error = 'Registration failed. Please try again.';
+        }
       },
     });
   }

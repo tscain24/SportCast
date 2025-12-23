@@ -1,4 +1,4 @@
-:host {
+﻿:host {
   --field-height: 46px;
   --card-min-height: 480px;
   display: block;
@@ -276,6 +276,7 @@ input:focus {
   box-shadow: 0 0 0 2px rgba(255, 90, 106, 0.25);
 }
 
+
 .input-shell {
   display: flex;
   align-items: center;
@@ -436,6 +437,7 @@ button:not(:disabled):active {
   font-size: 12px;
 }
 
+
 /* Ambient orbitals behind the card */
 .ambient {
   position: absolute;
@@ -531,3 +533,4 @@ button:not(:disabled):active {
     opacity: 0.5;
   }
 }
+
