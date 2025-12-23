@@ -1,6 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { AuthService, RegisterRequest } from '../auth.service';
 
 @Component({
@@ -31,7 +32,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {}
 
   formatDobOnInput(event: Event): void {
@@ -81,9 +83,8 @@ export class RegisterComponent {
     this.auth.register(payload).subscribe({
       next: (res) => {
         this.loading = false;
-        this.snackBar.open(`Welcome, ${res.firstName}! Account created.`, 'Close', {
-          duration: 3500,
-          panelClass: ['snack-success'],
+        this.router.navigate(['/login'], {
+          state: { toastMessage: `Welcome, ${res.firstName}! Account created.` },
         });
       },
       error: (err) => {

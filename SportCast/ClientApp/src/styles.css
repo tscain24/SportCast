@@ -1,20 +1,35 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 .snack-success .mdc-snackbar__surface {
-  background-color: rgba(24, 38, 30, 0.95);
-  border: 1px solid rgba(88, 190, 120, 0.35);
+  background-color: #2ea85e !important;
+  border: 1px solid #2ea85e !important;
+  border-radius: 18px !important;
 }
 
 .snack-error .mdc-snackbar__surface {
-  background-color: rgba(44, 22, 22, 0.95);
-  border: 1px solid rgba(255, 99, 71, 0.35);
+  background-color: #e84e42 !important;
+  border: 1px solid #e84e42 !important;
+  border-radius: 18px !important;
 }
 
 .snack-success .mdc-snackbar__label,
 .snack-error .mdc-snackbar__label {
   color: #f6f8fb;
+}
+
+.snack-success .mdc-snackbar__action,
+.snack-error .mdc-snackbar__action {
+  color: #ffffff !important;
+}
+
+:root {
+  --date-accent: #ff5a6a;
+}
+
+.mat-datepicker-content .mat-calendar-body-selected {
+  background-color: var(--date-accent);
 }
 
 /* Global reset for a clean canvas */
@@ -144,3 +159,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color: #7c869b !important;
   opacity: 1 !important;
 }
+
+.mat-datepicker-content .mat-calendar-body-cell:hover .mat-calendar-body-cell-content,
+.mat-datepicker-content .mat-calendar-body-active .mat-calendar-body-cell-content,
+.mat-datepicker-content .mat-calendar-body-cell-content:hover {
+  background-color: rgba(255, 90, 106, 0.18) !important;
+}
+
+.mat-datepicker-content .mat-calendar-body-cell.mat-calendar-body-active .mat-calendar-body-cell-content,
+.mat-datepicker-content .mat-calendar-body-cell.mat-calendar-body-active:hover .mat-calendar-body-cell-content {
+  background-color: rgba(255, 90, 106, 0.28) !important;
+}
+
+.mat-datepicker-content .mat-calendar-body-today:not(.mat-calendar-body-selected) .mat-calendar-body-cell-content {
+  border-color: #ff5a6a;
+}
+

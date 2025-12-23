@@ -1,6 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -20,8 +21,20 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {}
+
+  ngOnInit(): void {
+    const message = (history.state && history.state.toastMessage) as string | undefined;
+    if (message) {
+      this.snackBar.open(message, 'Close', {
+        duration: 3500,
+        panelClass: ['snack-success'],
+      });
+      history.replaceState({}, '');
+    }
+  }
 
   submit(): void {
     if (this.form.invalid) {
