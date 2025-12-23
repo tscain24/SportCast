@@ -1,5 +1,6 @@
 ﻿import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService, RegisterRequest } from '../auth.service';
 
 @Component({
@@ -9,9 +10,8 @@ import { AuthService, RegisterRequest } from '../auth.service';
 })
 export class RegisterComponent {
   loading = false;
-  error = '';
-  success = '';
   readonly maxDate = new Date();
+  showPassword = false;
 
   form = this.fb.group({
     firstname: ['', [Validators.required, Validators.minLength(2)]],
@@ -28,7 +28,11 @@ export class RegisterComponent {
     ],
   });
 
-  constructor(private fb: FormBuilder, private auth: AuthService) {}
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private snackBar: MatSnackBar
+  ) {}
 
   formatDobOnInput(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -59,8 +63,6 @@ export class RegisterComponent {
   }
 
   submit(): void {
-    this.error = '';
-    this.success = '';
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -79,18 +81,24 @@ export class RegisterComponent {
     this.auth.register(payload).subscribe({
       next: (res) => {
         this.loading = false;
-        this.success = `Welcome, ${res.firstName}! Account created.`;
+        this.snackBar.open(`Welcome, ${res.firstName}! Account created.`, 'Close', {
+          duration: 3500,
+          panelClass: ['snack-success'],
+        });
       },
       error: (err) => {
         this.loading = false;
         const errors = err?.error?.errors as string[] | undefined;
+        let message = 'Registration failed. Please try again.';
         if (err.status === 409) {
-          this.error = 'Email already in use';
+          message = 'Email already in use';
         } else if (errors && errors.length > 0) {
-          this.error = errors[0];
-        } else {
-          this.error = 'Registration failed. Please try again.';
+          message = errors[0];
         }
+        this.snackBar.open(message, 'Close', {
+          duration: 4000,
+          panelClass: ['snack-error'],
+        });
       },
     });
   }

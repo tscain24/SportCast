@@ -70,7 +70,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("ClientApp", policy =>
     {
-        policy.WithOrigins("http://localhost:4200")
+        policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -84,7 +84,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// Local dev uses HTTP; HTTPS can be enabled when certs are trusted.
 app.UseCors("ClientApp");
 app.UseAuthentication();
 app.UseAuthorization();

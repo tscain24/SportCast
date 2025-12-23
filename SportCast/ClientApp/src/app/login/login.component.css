@@ -1,4 +1,4 @@
-:host {
+﻿:host {
   --card-min-height: 520px;
   display: block;
   height: 100vh;
@@ -135,7 +135,7 @@ input:focus {
   box-shadow: 0 0 0 2px rgba(255, 90, 106, 0.25);
 }
 
-button {
+form > button {
   margin-top: 8px;
   padding: 13px 16px;
   border: none;
@@ -151,18 +151,18 @@ button {
   justify-self: center;
 }
 
-button:disabled {
+form > button:disabled {
   opacity: 0.7;
   cursor: not-allowed;
   filter: grayscale(0.2);
 }
 
-button:not(:disabled):hover {
+form > button:not(:disabled):hover {
   transform: translateY(-1.5px);
   box-shadow: 0 16px 34px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
-button:not(:disabled):active {
+form > button:not(:disabled):active {
   transform: translateY(0);
 }
 
@@ -212,13 +212,48 @@ button:not(:disabled):active {
 
 :host ::ng-deep .mat-shell input:-webkit-autofill,
 :host ::ng-deep .mat-shell input:-webkit-autofill:hover,
-:host ::ng-deep .mat-shell input:-webkit-autofill:focus {
-  -webkit-text-fill-color: #f6f8fb;
-  caret-color: #f6f8fb;
-  box-shadow: 0 0 0 1000px rgba(20, 22, 28, 0.9) inset;
+:host ::ng-deep .mat-shell input:-webkit-autofill:focus,
+:host ::ng-deep .mat-shell input.mat-mdc-input-element:-webkit-autofill,
+:host ::ng-deep .mat-shell input.mat-mdc-input-element:-webkit-autofill:hover,
+:host ::ng-deep .mat-shell input.mat-mdc-input-element:-webkit-autofill:focus {
+  -webkit-text-fill-color: #f6f8fb !important;
+  caret-color: #f6f8fb !important;
+  background-color: transparent !important;
+  box-shadow: 0 0 0 1000px transparent inset !important;
   border-radius: 12px;
+  transition: background-color 9999s ease-out 0s;
 }
 
+:host ::ng-deep .mat-shell input.mat-mdc-input-element {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+:host ::ng-deep .mat-shell {
+  --mdc-icon-button-icon-color: #ffb7c0;
+}
+
+:host ::ng-deep .mat-shell .mat-mdc-icon-button {
+  background: transparent;
+}
+
+:host ::ng-deep .mat-shell .eye-toggle {
+  color: #ffb7c0;
+  --mdc-icon-button-icon-color: #ffb7c0;
+}
+
+:host ::ng-deep .mat-shell .mat-mdc-form-field-icon-suffix {
+  display: flex;
+  align-items: center;
+}
+
+:host ::ng-deep .mat-shell .mat-datepicker-toggle {
+  margin-left: 0;
+}
+
+:host ::ng-deep .mat-shell .mat-mdc-form-field-icon-suffix .mat-datepicker-toggle-default-icon {
+  transform: translateX(2px);
+}
 /* Ambient orbitals behind the card */
 .ambient {
   position: absolute;
@@ -315,3 +350,8 @@ button:not(:disabled):active {
     opacity: 0.5;
   }
 }
+
+
+
+
+

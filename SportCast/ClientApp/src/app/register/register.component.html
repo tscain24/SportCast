@@ -80,7 +80,22 @@
         <label>
           <span class="label-text">Password<span class="required">*</span></span>
           <mat-form-field class="mat-shell" appearance="fill">
-            <input matInput type="password" formControlName="password" placeholder="********" />
+            <input
+              matInput
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="********"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              class="eye-toggle"
+              (click)="showPassword = !showPassword"
+              [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+            >
+              <mat-icon>{{ showPassword ? 'visibility' : 'visibility_off' }}</mat-icon>
+            </button>
           </mat-form-field>
           <span class="error" *ngIf="form.controls.password.touched && form.controls.password.invalid">
             Use 8+ chars with upper, lower, and a number.
@@ -107,9 +122,6 @@
           <span>Already have an account?</span>
           <a routerLink="/login">Sign in</a>
         </div>
-
-        <div class="alert error" *ngIf="error">{{ error }}</div>
-        <div class="alert success" *ngIf="success">{{ success }}</div>
       </div>
     </form>
   </div>

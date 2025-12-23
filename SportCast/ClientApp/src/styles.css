@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+.snack-success .mdc-snackbar__surface {
+  background-color: rgba(24, 38, 30, 0.95);
+  border: 1px solid rgba(88, 190, 120, 0.35);
+}
+
+.snack-error .mdc-snackbar__surface {
+  background-color: rgba(44, 22, 22, 0.95);
+  border: 1px solid rgba(255, 99, 71, 0.35);
+}
+
+.snack-success .mdc-snackbar__label,
+.snack-error .mdc-snackbar__label {
+  color: #f6f8fb;
+}
+
 /* Global reset for a clean canvas */
 html,
 body {

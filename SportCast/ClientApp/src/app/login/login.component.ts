@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -9,34 +10,46 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent {
   loading = false;
-  error = '';
-  success = '';
+  showPassword = false;
 
   form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
-  constructor(private fb: FormBuilder, private auth: AuthService) {}
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private snackBar: MatSnackBar
+  ) {}
 
   submit(): void {
-    this.error = '';
-    this.success = '';
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
     this.loading = true;
-    const payload = this.form.getRawValue(); // ensures defined fields
+    const payload = this.form.getRawValue();
     this.auth.login(payload).subscribe({
       next: (res) => {
         this.loading = false;
-        this.success = `Signed in as ${res.displayName} (token: ${res.token.slice(0, 8)}...)`;
+        this.snackBar.open(`Signed in as ${res.displayName}.`, 'Close', {
+          duration: 3000,
+          panelClass: ['snack-success'],
+        });
       },
       error: (err) => {
         this.loading = false;
-        this.error = err.status === 401 ? 'Invalid Credentials' : 'Login Failed. Please Try Again or poop on it.';
+        const errors = err?.error?.errors as string[] | undefined;
+        let message = err.status === 401 ? 'Invalid credentials' : 'Login failed. Please try again.';
+        if (errors && errors.length > 0) {
+          message = errors[0];
+        }
+        this.snackBar.open(message, 'Close', {
+          duration: 4000,
+          panelClass: ['snack-error'],
+        });
       },
     });
   }
