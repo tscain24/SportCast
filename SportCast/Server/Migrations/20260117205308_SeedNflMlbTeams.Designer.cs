@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SportCast.Server.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using SportCast.Server.Infrastructure.Data;
 namespace SportCast.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260117205308_SeedNflMlbTeams")]
+    partial class SeedNflMlbTeams
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -959,209 +962,6 @@ namespace SportCast.Server.Migrations
                             LocationName = "Washington",
                             SportId = 2,
                             TeamName = "Nationals"
-                        },
-                        new
-                        {
-                            TeamId = 93,
-                            LocationName = "Atlanta",
-                            SportId = 4,
-                            TeamName = "United"
-                        },
-                        new
-                        {
-                            TeamId = 94,
-                            LocationName = "Austin",
-                            SportId = 4,
-                            TeamName = "FC"
-                        },
-                        new
-                        {
-                            TeamId = 95,
-                            LocationName = "Charlotte",
-                            SportId = 4,
-                            TeamName = "FC"
-                        },
-                        new
-                        {
-                            TeamId = 96,
-                            LocationName = "Chicago",
-                            SportId = 4,
-                            TeamName = "Fire"
-                        },
-                        new
-                        {
-                            TeamId = 97,
-                            LocationName = "Cincinnati",
-                            SportId = 4,
-                            TeamName = "FC"
-                        },
-                        new
-                        {
-                            TeamId = 98,
-                            LocationName = "Colorado",
-                            SportId = 4,
-                            TeamName = "Rapids"
-                        },
-                        new
-                        {
-                            TeamId = 99,
-                            LocationName = "Columbus",
-                            SportId = 4,
-                            TeamName = "Crew"
-                        },
-                        new
-                        {
-                            TeamId = 100,
-                            LocationName = "Dallas",
-                            SportId = 4,
-                            TeamName = "FC"
-                        },
-                        new
-                        {
-                            TeamId = 101,
-                            LocationName = "D.C. United",
-                            SportId = 4,
-                            TeamName = "FC"
-                        },
-                        new
-                        {
-                            TeamId = 102,
-                            LocationName = "Houston",
-                            SportId = 4,
-                            TeamName = "Dynamo"
-                        },
-                        new
-                        {
-                            TeamId = 103,
-                            LocationName = "Kansas City",
-                            SportId = 4,
-                            TeamName = "Sporting"
-                        },
-                        new
-                        {
-                            TeamId = 104,
-                            LocationName = "Los Angeles",
-                            SportId = 4,
-                            TeamName = "Galaxy"
-                        },
-                        new
-                        {
-                            TeamId = 105,
-                            LocationName = "Los Angeles",
-                            SportId = 4,
-                            TeamName = "FC"
-                        },
-                        new
-                        {
-                            TeamId = 106,
-                            LocationName = "Miami",
-                            SportId = 4,
-                            TeamName = "Inter"
-                        },
-                        new
-                        {
-                            TeamId = 107,
-                            LocationName = "Minnesota",
-                            SportId = 4,
-                            TeamName = "United"
-                        },
-                        new
-                        {
-                            TeamId = 108,
-                            LocationName = "Montreal",
-                            SportId = 4,
-                            TeamName = "CF"
-                        },
-                        new
-                        {
-                            TeamId = 109,
-                            LocationName = "Nashville",
-                            SportId = 4,
-                            TeamName = "SC"
-                        },
-                        new
-                        {
-                            TeamId = 110,
-                            LocationName = "New England",
-                            SportId = 4,
-                            TeamName = "Revolution"
-                        },
-                        new
-                        {
-                            TeamId = 111,
-                            LocationName = "New York City",
-                            SportId = 4,
-                            TeamName = "FC"
-                        },
-                        new
-                        {
-                            TeamId = 112,
-                            LocationName = "New York",
-                            SportId = 4,
-                            TeamName = "Red Bulls"
-                        },
-                        new
-                        {
-                            TeamId = 113,
-                            LocationName = "Orlando",
-                            SportId = 4,
-                            TeamName = "City"
-                        },
-                        new
-                        {
-                            TeamId = 114,
-                            LocationName = "Philadelphia",
-                            SportId = 4,
-                            TeamName = "Union"
-                        },
-                        new
-                        {
-                            TeamId = 115,
-                            LocationName = "Portland",
-                            SportId = 4,
-                            TeamName = "Timbers"
-                        },
-                        new
-                        {
-                            TeamId = 116,
-                            LocationName = "Salt Lake",
-                            SportId = 4,
-                            TeamName = "Real"
-                        },
-                        new
-                        {
-                            TeamId = 117,
-                            LocationName = "San Jose",
-                            SportId = 4,
-                            TeamName = "Earthquakes"
-                        },
-                        new
-                        {
-                            TeamId = 118,
-                            LocationName = "Seattle",
-                            SportId = 4,
-                            TeamName = "Sounders"
-                        },
-                        new
-                        {
-                            TeamId = 119,
-                            LocationName = "St. Louis",
-                            SportId = 4,
-                            TeamName = "City"
-                        },
-                        new
-                        {
-                            TeamId = 120,
-                            LocationName = "Toronto",
-                            SportId = 4,
-                            TeamName = "FC"
-                        },
-                        new
-                        {
-                            TeamId = 121,
-                            LocationName = "Vancouver",
-                            SportId = 4,
-                            TeamName = "Whitecaps"
                         });
                 });
 
